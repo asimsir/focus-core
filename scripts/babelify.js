@@ -47,11 +47,20 @@ var files = filterFiles(walk('./src'));
 files.forEach(function(file) {
     babel.transformFile(file, babelOptions, function(err, result) {
         if (err) console.error(err);
-        var newFile = file.replace('./src', '.');
+		//Copie des fichiers 
+        var newFile = file.replace('./src', '../Portail.Prive/node_modules/focus-core');
         ensureDirectoryExistence(newFile);
         fs.writeFile(newFile, result.code, function(err) {
             if (err) console.error(err);
-            console.log('Babelified ' + file);
+            console.log('Babelified Prive' + file);
         });
+		
+		var newFilePublic = file.replace('./src', '../Portail.Public/node_modules/focus-core');
+        ensureDirectoryExistence(newFilePublic);
+        fs.writeFile(newFilePublic, result.code, function(err) {
+            if (err) console.error(err);
+            console.log('Babelified Public' + file);
+        });
+
     });
 });
