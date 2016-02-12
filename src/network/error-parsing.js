@@ -1,5 +1,6 @@
-const message = require('../message');
-const {isObject, isArray, isString} = require('lodash/lang');
+import message from '../message';
+import {isObject, isArray, isString} from 'lodash/lang';
+import {translate} from '../translation';
 /**
 * Define all the error types of the exceptions which are defined.
 * @type {object}
@@ -137,14 +138,10 @@ function _treatEntityExceptions(responseJSON = {}, options) {
     }else {
         fieldErrors = fieldJSONError;
     }
-	
-	const i18n = require('i18next-client');
-	if (!i18n) {
-        throw new DependencyException('Dependency not resolved: i18n.js');
+
+  	for (var field in fieldErrors) {
+  		fieldErrors[field] =  translate(fieldErrors[field]);
     }
-	for (var field in fieldErrors) {
-		fieldErrors[field] =  i18n.t(fieldErrors[field]);
-	}
     return fieldErrors;
 }
 

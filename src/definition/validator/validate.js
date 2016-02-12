@@ -1,12 +1,14 @@
 //Dependency
-const DependencyException = require('../../exception').DependencyException;
-const assign = require('object-assign');
+import {DependencyException} from '../../exception';
+import assign from 'object-assign';
+import {translate} from '../../translation';
 //Focus validators
-const emailValidation = require('./email');
-const numberValidation = require('./number');
-const stringLength = require('./string-length');
-const dateValidation = require('./date');
-const {isNull, isUndefined} = require('lodash/lang');
+import emailValidation from './email';
+import numberValidation from './number';
+import stringLength from './string-length';
+import dateValidation from './date';
+import {isNull, isUndefined} from 'lodash/lang';
+
 /**
 * Validae a property given validators.
 * @param  {object} property   - Property to validate which should be as follows: `{name: "field_name",value: "field_value", validators: [{...}] }`.
@@ -96,13 +98,9 @@ function validateProperty(property, validator) {
  */
 function getErrorLalel(type, fieldName, options = {}) {
     options = options || {};
-    const i18n = require('i18next-client');
-    if (!i18n) {
-        throw new DependencyException('Dependency not resolved: i18n.js');
-    }
     const translationKey = options.translationKey ? options.translationKey : `domain.validation.${type}`;
-    const opts = assign({fieldName: i18n.t(fieldName)}, options);
-    return i18n.t(translationKey, opts);
+    const opts = assign({fieldName: translate(fieldName)}, options);
+    return translate(translationKey, opts);
 }
 
 module.exports = validate;
