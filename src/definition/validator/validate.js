@@ -86,7 +86,7 @@ function validateProperty(property, validator) {
         console.warn(`The validator of type: ${validator.tye} is not defined`);
     } else if (false === isValid) {
         //Add the name of the property.
-        return getErrorLalel(validator.type, property.modelName + '.' + property.name, options); //"The property " + property.name + " is invalid.";
+        return getErrorLabel(validator.type, property.modelName + '.' + property.name, options); //"The property " + property.name + " is invalid.";
     }
 }
 /**
@@ -96,11 +96,11 @@ function validateProperty(property, validator) {
  * @param  {object} options - The options to put such as the translationKey which could be defined in the domain.
  * @return {string} The formatted error.
  */
-function getErrorLalel(type, fieldName, options = {}) {
+function getErrorLabel(type, fieldName, options = {}) {
     options = options || {};
     const translationKey = options.translationKey ? options.translationKey : `domain.validation.${type}`;
-    const opts = assign({fieldName: translate(fieldName)}, options);
+    const opts = {fieldName: translate(fieldName), ...options};
     return translate(translationKey, opts);
 }
 
-module.exports = validate;
+export default validate;

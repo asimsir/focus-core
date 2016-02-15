@@ -139,10 +139,14 @@ function _treatEntityExceptions(responseJSON = {}, options) {
         fieldErrors = fieldJSONError;
     }
 
-  	for (var field in fieldErrors) {
-  		fieldErrors[field] =  translate(fieldErrors[field]);
-    }
-    return fieldErrors;
+    return Object.keys(fieldErrors)
+        .reduce(
+            (res, field) => {
+                res[field] = translate(fieldErrors[field]);
+                return res;
+            }
+            , {}
+        );
 }
 
 /**
